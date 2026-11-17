@@ -12,14 +12,20 @@
       <div>
         <div>
           <strong>{{ birthday.first_name }} {{ birthday.last_name }}</strong> - {{ birthday.birthday|date:"d E Y" }}
+          
+          {% if birthday.author %}
+            <span class="text-muted">(Автор: {{ birthday.author.username }})</span>
+          {% endif %}
         </div>
         
         <div class="mt-2 d-flex gap-2">
           <a href="{% url 'birthday:detail' birthday.id %}" class="btn btn-sm btn-outline-info">Сколько до дня рождения?</a>
           
-          <a href="{% url 'birthday:edit' birthday.id %}" class="btn btn-sm btn-outline-primary">Изменить</a>
-          
-          <a href="{% url 'birthday:delete' birthday.id %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+         
+          {% if birthday.author == user %}
+            <a href="{% url 'birthday:edit' birthday.id %}" class="btn btn-sm btn-outline-primary">Изменить</a>
+            <a href="{% url 'birthday:delete' birthday.id %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+          {% endif %}
         </div>
         
         {% if not forloop.last %}
